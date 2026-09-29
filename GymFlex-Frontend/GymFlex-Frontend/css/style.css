@@ -1,0 +1,115 @@
+/* GymFlex - simple dashboard styling */
+:root {
+  --bg: #f4f6fb;
+  --sidebar: #1f2540;
+  --sidebar-hover: #2d3560;
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --green: #16a34a;
+  --red: #dc2626;
+  --orange: #ea580c;
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --teal: #0d9488;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); }
+h1 { font-size: 1.5rem; margin: 0; }
+h2.sub { font-size: 1.1rem; margin: 24px 0 10px; }
+.muted { color: var(--muted); }
+.small { font-size: .85rem; }
+.hidden { display: none !important; }
+
+/* ---------- layout ---------- */
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 230px; background: var(--sidebar); color: #fff; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+.brand { font-size: 1.4rem; font-weight: 700; padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
+#nav { display: flex; flex-direction: column; padding: 12px; gap: 4px; flex: 1; }
+.nav-btn { background: none; border: 0; color: #cbd5e1; text-align: left; padding: 11px 14px; border-radius: 8px; font-size: .95rem; cursor: pointer; }
+.nav-btn:hover { background: var(--sidebar-hover); color: #fff; }
+.nav-btn.active { background: var(--primary); color: #fff; font-weight: 600; }
+.sidebar-footer { padding: 14px 18px; font-size: .75rem; color: #94a3b8; word-break: break-all; }
+.content { flex: 1; padding: 28px; min-width: 0; }
+.section { display: none; }
+.section.active { display: block; }
+.section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.toolbar { display: flex; gap: 10px; align-items: center; }
+.toolbar.wrap { flex-wrap: wrap; }
+
+/* ---------- buttons / inputs ---------- */
+.btn { background: var(--primary); color: #fff; border: 0; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: .9rem; font-weight: 600; }
+.btn:hover { background: var(--primary-dark); }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.btn.secondary { background: #e5e7eb; color: var(--text); }
+.btn.secondary:hover { background: #d1d5db; }
+.btn.danger { background: var(--red); }
+.btn.danger:hover { background: #b91c1c; }
+.btn.small { padding: 5px 10px; font-size: .8rem; }
+input, select { font: inherit; padding: 9px 11px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; }
+input:focus, select:focus { outline: 2px solid var(--primary); outline-offset: 0; border-color: var(--primary); }
+#memberSearch { width: 260px; }
+#attMember { min-width: 280px; }
+
+/* ---------- cards ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 12px; padding: 22px; border-left: 6px solid var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.card-value { font-size: 2.2rem; font-weight: 700; }
+.card-label { color: var(--muted); margin-top: 4px; }
+.card.blue { border-color: var(--blue); } .card.green { border-color: var(--green); }
+.card.red { border-color: var(--red); } .card.orange { border-color: var(--orange); }
+.card.purple { border-color: var(--purple); } .card.teal { border-color: var(--teal); }
+
+/* ---------- tables ---------- */
+.table-wrap { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: .9rem; white-space: nowrap; }
+th { background: #f9fafb; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+tbody tr:hover { background: #fafbff; }
+td.actions { white-space: nowrap; }
+td.error-text { color: var(--red); }
+
+/* ---------- badges ---------- */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .75rem; font-weight: 700; }
+.badge.ACTIVE { background: #dcfce7; color: #166534; }
+.badge.EXPIRED { background: #fee2e2; color: #991b1b; }
+.badge.CANCELLED { background: #e5e7eb; color: #374151; }
+
+/* ---------- panels / alerts ---------- */
+.panel { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.alert { padding: 12px 14px; border-radius: 8px; margin-top: 14px; font-size: .92rem; }
+.alert.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.alert.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.count-box { margin-top: 14px; padding: 12px 14px; background: #eef2ff; border-radius: 8px; color: #3730a3; }
+
+/* ---------- dialogs / forms ---------- */
+dialog { border: 0; border-radius: 14px; padding: 24px; width: min(480px, 92vw); box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+dialog::backdrop { background: rgba(15, 23, 42, .5); }
+dialog h2 { margin: 0 0 16px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 600; font-size: .85rem; margin-bottom: 5px; }
+.field input, .field select { width: 100%; }
+.field.checkbox label { font-weight: 500; }
+.field.checkbox input { width: auto; margin-right: 6px; }
+small.error { display: block; color: var(--red); font-size: .8rem; margin-top: 4px; min-height: 0; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+
+/* ---------- toasts ---------- */
+#toasts { position: fixed; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+.toast { padding: 12px 18px; border-radius: 8px; color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.2); max-width: 380px; }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--red); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 800px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; }
+  #nav { flex-direction: row; flex-wrap: wrap; }
+  .sidebar-footer { display: none; }
+  .content { padding: 16px; }
+  #memberSearch, #attMember { width: 100%; min-width: 0; }
+  .toolbar { flex-wrap: wrap; }
+}

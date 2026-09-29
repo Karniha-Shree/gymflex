@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GymFlex - Gym Membership &amp; Attendance Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="brand">&#128170; GymFlex</div>
+      <nav id="nav">
+        <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+        <button class="nav-btn" data-section="members">Members</button>
+        <button class="nav-btn" data-section="plans">Plans</button>
+        <button class="nav-btn" data-section="memberships">Memberships</button>
+        <button class="nav-btn" data-section="attendance">Attendance</button>
+        <button class="nav-btn" data-section="expiring">Expiring Soon</button>
+      </nav>
+      <div class="sidebar-footer">
+        <small>API: <span id="apiUrlLabel"></span></small>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <section id="section-dashboard" class="section active">
+        <div class="section-head"><h1>Dashboard</h1>
+          <button class="btn secondary" id="refreshDashboard">Refresh</button></div>
+        <div id="dashboardCards" class="cards"></div>
+      </section>
+
+      <!-- MEMBERS -->
+      <section id="section-members" class="section">
+        <div class="section-head"><h1>Members</h1>
+          <div class="toolbar">
+            <input type="search" id="memberSearch" placeholder="Search name, email or phone...">
+            <button class="btn" id="addMemberBtn">+ Add Member</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Date of Birth</th><th>Emergency Contact</th><th>Actions</th></tr></thead>
+            <tbody id="membersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PLANS -->
+      <section id="section-plans" class="section">
+        <div class="section-head"><h1>Plans</h1>
+          <button class="btn" id="addPlanBtn">+ Add Plan</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Duration</th><th>Price</th><th>Active</th><th>Actions</th></tr></thead>
+            <tbody id="plansBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MEMBERSHIPS -->
+      <section id="section-memberships" class="section">
+        <div class="section-head"><h1>Memberships</h1>
+          <div class="toolbar">
+            <select id="membershipFilter">
+              <option value="">All statuses</option>
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="EXPIRED">EXPIRED</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+            <button class="btn" id="addMembershipBtn">+ New Membership</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Member</th><th>Plan</th><th>Start</th><th>Expiry</th><th>Status</th><th>Days Left</th><th>Actions</th></tr></thead>
+            <tbody id="membershipsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE -->
+      <section id="section-attendance" class="section">
+        <div class="section-head"><h1>Attendance</h1></div>
+        <div class="panel">
+          <div class="toolbar wrap">
+            <select id="attMember"><option value="">-- Select member --</option></select>
+            <button class="btn" id="checkInBtn">Check In</button>
+          </div>
+          <div id="attMessage" class="alert hidden"></div>
+          <div id="attCount" class="count-box hidden"></div>
+        </div>
+        <h2 class="sub">Check-in history</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Member</th><th>Date</th><th>Time</th></tr></thead>
+            <tbody id="attBody"><tr><td colspan="4" class="muted">Select a member to see attendance.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EXPIRING SOON -->
+      <section id="section-expiring" class="section">
+        <div class="section-head"><h1>Expiring Soon <small class="muted">(next 7 days)</small></h1>
+          <button class="btn secondary" id="refreshExpiring">Refresh</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Member</th><th>Plan</th><th>Start Date</th><th>Expiry Date</th><th>Status</th><th>Days Left</th><th>Action</th></tr></thead>
+            <tbody id="expiringBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ DIALOGS ============ -->
+
+  <dialog id="memberDialog">
+    <form id="memberForm" novalidate>
+      <h2 id="memberDialogTitle">Add Member</h2>
+      <input type="hidden" name="id">
+      <div class="field"><label>Name *</label><input name="name" maxlength="100"><small class="error"></small></div>
+      <div class="field"><label>Email *</label><input name="email" type="email" maxlength="150"><small class="error"></small></div>
+      <div class="field"><label>Phone *</label><input name="phone" maxlength="20" placeholder="e.g. 9876543210"><small class="error"></small></div>
+      <div class="field"><label>Date of Birth</label><input name="dateOfBirth" type="date"><small class="error"></small></div>
+      <div class="field"><label>Address</label><input name="address" maxlength="255"><small class="error"></small></div>
+      <div class="field"><label>Emergency Contact</label><input name="emergencyContact" maxlength="150" placeholder="Name - phone"><small class="error"></small></div>
+      <div class="form-error alert error hidden"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn secondary" data-close>Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="planDialog">
+    <form id="planForm" novalidate>
+      <h2 id="planDialogTitle">Add Plan</h2>
+      <input type="hidden" name="id">
+      <div class="field"><label>Name *</label><input name="name" maxlength="100"><small class="error"></small></div>
+      <div class="field"><label>Description</label><input name="description" maxlength="255"><small class="error"></small></div>
+      <div class="field"><label>Duration (months) *</label><input name="durationMonths" type="number" min="1" max="120"><small class="error"></small></div>
+      <div class="field"><label>Price (&#8377;) *</label><input name="price" type="number" min="0.01" step="0.01"><small class="error"></small></div>
+      <div class="field checkbox"><label><input name="active" type="checkbox" checked> Active</label></div>
+      <div class="form-error alert error hidden"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn secondary" data-close>Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="membershipDialog">
+    <form id="membershipForm" novalidate>
+      <h2>New Membership</h2>
+      <div class="field"><label>Member *</label><select name="memberId"></select><small class="error"></small></div>
+      <div class="field"><label>Plan *</label><select name="planId"></select><small class="error"></small></div>
+      <div class="field"><label>Start Date *</label><input name="startDate" type="date"><small class="error"></small></div>
+      <div class="field"><label>Expiry Date <span class="muted">(leave empty to calculate from the plan)</span></label><input name="expiryDate" type="date"><small class="error"></small></div>
+      <div class="form-error alert error hidden"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn secondary" data-close>Cancel</button>
+        <button type="submit" class="btn">Create</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="renewDialog">
+    <form id="renewForm" novalidate>
+      <h2>Renew Membership</h2>
+      <input type="hidden" name="id">
+      <p id="renewInfo" class="muted"></p>
+      <div class="field"><label>Plan *</label><select name="planId"></select><small class="error"></small></div>
+      <p class="muted small">Active memberships are extended from their current expiry date. Expired ones restart from today.</p>
+      <div class="form-error alert error hidden"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn secondary" data-close>Cancel</button>
+        <button type="submit" class="btn">Renew</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts"></div>
+
+  <!-- Order matters: config -> api -> app -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
